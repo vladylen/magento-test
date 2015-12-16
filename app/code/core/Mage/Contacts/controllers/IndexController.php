@@ -74,22 +74,18 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
 
                 if (!Zend_Validate::is(trim($post['name']) , 'NotEmpty')) {
                     $error = true;
-                    var_dump(1);
                 }
 
                 if (!Zend_Validate::is(trim($post['comment']) , 'NotEmpty')) {
                     $error = true;
-                    var_dump(2);
                 }
 
                 if (!Zend_Validate::is(trim($post['email']), 'EmailAddress')) {
                     $error = true;
-                    var_dump(3);
                 }
 
                 if (Zend_Validate::is(trim($post['hideit']), 'NotEmpty')) {
                     $error = true;
-                    var_dump(4);
                 }
 
                 if ($error) {
@@ -107,9 +103,9 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
                         array('data' => $postObject)
                     );
 
-//                if (!$mailTemplate->getSentSuccess()) {
-//                    throw new Exception();
-//                }
+                if (!$mailTemplate->getSentSuccess()) {
+                    throw new Exception();
+                }
 
                 $translate->setTranslateInline(true);
 
@@ -118,8 +114,6 @@ class Mage_Contacts_IndexController extends Mage_Core_Controller_Front_Action
 
                 return;
             } catch (Exception $e) {
-                var_dump($e);
-                die();
                 $translate->setTranslateInline(true);
 
                 Mage::getSingleton('customer/session')->addError(Mage::helper('contacts')->__('Unable to submit your request. Please, try again later'));

@@ -2,47 +2,77 @@
 
 class Mad_Contact_IndexController extends Mage_Core_Controller_Front_Action
 {
-    public function indexAction()
+    public function postAction()
     {
-        var_dump(123);
-        //Get current layout state
-        $this->loadLayout();
+        $post = $this->getRequest()->getPost();
 
-        $block = $this->getLayout()->createBlock(
-            'Mage_Core_Block_Template',
-            'mad.contact',
-            array(
-                'template' => 'mad/contact.phtml'
-            )
-        );
+        if ($post && $this->_validateFormKey()) {
+            $translate = Mage::getSingleton('core/translate');
+            /* @var $translate Mage_Core_Model_Translate */
+            $translate->setTranslateInline(false);
 
-        $this->getLayout()->getBlock('content')->append($block);
-        //$this->getLayout()->getBlock('right')->insert($block, 'catalog.compare.sidebar', true);
+            try {
+                $postObject = new Varien_Object();
+                $postObject->setData($post);
 
-        $this->_initLayoutMessages('core/session');
+                $error = false;
 
-        $this->renderLayout();
-    }
+                if (!Zend_Validate::is(trim($post['name']), 'NotEmpty')) {
+                    $error = true;
+                }
 
-    public function sendemailAction()
-    {
-        //Fetch submited params
-        $params = $this->getRequest()->getParams();
+                if (!Zend_Validate::is(trim($post['comment']), 'NotEmpty')) {
+                    $error = true;
+                }
 
-        $mail = new Zend_Mail();
-        $mail->setBodyText($params['comment']);
-        $mail->setFrom($params['email'], $params['name']);
-        $mail->addTo('somebody_else@example.com', 'Some Recipient');
-        $mail->setSubject('Test Mad_Contact Module for Magento');
-        try {
-            $mail->send();
+                if (!Zend_Validate::is(trim($post['email']), 'EmailAddress')) {
+                    $error = true;
+                }
+
+                if (Zend_Validate::is(trim($post['hideit']), 'NotEmpty')) {
+                    $error = true;
+                }
+
+                if ($error) {
+                    throw new Exception();
+                }
+                $mailTemplate = Mage::getModel('core/email_template');
+                /* @var $mailTemplate Mage_Core_Model_Email_Template */
+                $mailTemplate->setDesignConfig(['area' => 'frontend'])
+                    ->setReplyTo($post['email'])
+                    ->sendTransactional(
+                        Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
+                        Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
+                        Mage::getStoreConfig(self::XML_PATH_EMAIL_RECIPIENT),
+                        null,
+                        ['data' => $postObject]
+                    );
+
+                if (!$mailTemplate->getSentSuccess()) {
+                    throw new Exception();
+                }
+
+                $translate->setTranslateInline(true);
+
+                Mage::getSingleton('customer/session')->addSuccess(
+                    Mage::helper('contacts')->__(
+                        'Your inquiry was submitted and will be responded to as soon as possible. Thank you for contacting us.'
+                    )
+                );
+
+                return $this->_redirect('*/*/');
+            } catch (Exception $e) {
+                $translate->setTranslateInline(true);
+
+                Mage::getSingleton('customer/session')->addError(
+                    Mage::helper('contacts')->__('Unable to submit your request. Please, try again later')
+                );
+
+                return $this->_redirectReferer();
+            }
+
+        } else {
+            return $this->_redirectReferer();
         }
-        catch(Exception $ex) {
-            Mage::getSingleton('core/session')->addError('Unable to send email. Sample of a custom notification error from Mad_Contact.');
-
-        }
-
-        //Redirect back to index action of (this) mad-contact controller
-        $this->_redirect('contact/');
     }
 }
