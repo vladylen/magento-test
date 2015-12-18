@@ -26,10 +26,6 @@ class Mad_Contact_IndexController extends Mage_Core_Controller_Front_Action
                     $error = true;
                 }
 
-                if (!Zend_Validate::is(trim($post['comment']), 'NotEmpty')) {
-                    $error = true;
-                }
-
                 if (!Zend_Validate::is(trim($post['email']), 'EmailAddress')) {
                     $error = true;
                 }
