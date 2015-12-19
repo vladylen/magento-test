@@ -10601,3 +10601,102 @@ div.calendar table td.button {
   color: inherit;
   text-transform: none;
 }
+
+/* Contact Form */
+#cms_home_form {
+  width: 30%;
+  display: inline-block;
+  margin-left: 19%;
+  vertical-align: top;
+}
+
+#cms_home_icon img {
+  margin-left: 40px;
+}
+
+#cms_home_icon p {
+  font-size: 30px;
+  color: #FFF;
+  width: 100%;
+  text-align: center;
+  display: inline-block;
+}
+
+.cms-home .footer .row {
+  display: none;
+}
+
+#cms_home_form .form_mini {
+  display: inline-block;
+}
+
+#cms_home_form .form_mini .form_head {
+  background-color: #f6f6f6;
+  text-align: center;
+  color: #f47921;
+  font-size: 18px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 5px 5px 0 0;
+}
+
+#cms_home_form .form_mini #contactForm {
+  padding-left: 0;
+}
+
+#cms_home_form .form_mini .form_content {
+  background-color: #FFF;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  opacity: 0.8;
+}
+
+#cms_home_form .form_mini .form_content input {
+  width: 250px;
+  height: 30px;
+  padding: 5px;
+  margin: 8px 5px;
+}
+
+#cms_home_form .form_mini .form_content input.validation-failed {
+  border: 1px dashed #f47921 !important;
+  background: #faebe7 !important;
+}
+
+#cms_home_form .form_mini .form_button {
+  background-color: #f47921;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 0 0 5px 5px;
+}
+
+#cms_home_form .form_mini .form_button button {
+  background-color: transparent;
+}
+
+#cms_home_form .form_mini .form_button button span {
+  font-size: 18px;
+  color: #FFF;
+  text-transform: none;
+}
+
+#cms_home_form .form_mini .form_errors {
+}
+
+#cms_home_form .form_mini .form_errors .messages .error-msg ul li {
+  color: #666666;
+  border-left-color: #f47921;
+  background-color: #f6f6f6;
+  border-radius: 0 5px 5px 0;
+}
+
+#cms_home_form .form_mini .form_errors .messages .error-msg ul li:before {
+  border-left-color: #f47921;
+}
+
+#cms_home_form .form_mini .form_content p.required, .validation-advice {
+  color: #f47921;
+  margin: 0;
+}
