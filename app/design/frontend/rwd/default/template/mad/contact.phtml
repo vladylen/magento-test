@@ -9,17 +9,17 @@
             <div class="form_content">
                 <input name="name" id="name"
                        title="<?php echo Mage::helper('core')->quoteEscape(Mage::helper('contacts')->__('Name')) ?>"
-                       value="<?php echo 'mad';//$this->escapeHtml($this->helper('contacts')->getUserName()) ?>"
+                       value="<?php echo $this->escapeHtml($this->helper('contacts')->getUserName()) ?>"
                        placeholder="Имя*"
                        class="name required-entry" type="text"/>
                 <input name="email" id="email"
                        title="<?php echo Mage::helper('core')->quoteEscape(Mage::helper('contacts')->__('Email')) ?>"
-                       value="<?php echo '';//$this->escapeHtml($this->helper('contacts')->getUserEmail()) ?>"
+                       value="<?php echo $this->escapeHtml($this->helper('contacts')->getUserEmail()) ?>"
                        placeholder="E-mail"
                        class="email validate-email" type="text"/>
                 <input name="telephone" id="telephone"
                        title="<?php echo Mage::helper('core')->quoteEscape(Mage::helper('contacts')->__('Telephone')) ?>"
-                       value="<?php echo '0676232300';//$this->escapeHtml($this->helper('contacts')->getUserName()) ?>"
+                       value="<?php echo $this->escapeHtml($this->helper('contacts')->getUserName()) ?>"
                        placeholder="Моб. телефон*: +380XXXXXXXXX"
                        class="telefon required-entry" type="text"/>
             </div>
