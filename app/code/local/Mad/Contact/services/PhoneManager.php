@@ -72,6 +72,9 @@ class PhoneManager
                     uniqid('call', true)
                 );
 
+                $ast->logout();
+                $ast->close();
+
                 if (strpos($result, 'Success') === false) {
                     throw new ATSException('Unable to call!');
                 }
