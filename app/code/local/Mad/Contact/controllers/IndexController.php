@@ -133,7 +133,7 @@ class Mad_Contact_IndexController extends Mage_Core_Controller_Front_Action
             )
         );
 
-        return $this->_redirect('about-magento-demo-store/');
+        return $this->_redirect('/');
     }
 
     /**

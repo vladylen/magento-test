@@ -10670,6 +10670,8 @@ div.calendar table td.button {
   padding-top: 10px;
   padding-bottom: 10px;
   border-radius: 0 0 5px 5px;
+  font-size: 18px;
+  color: #FFF;
 }
 
 #cms_home_form .form_mini .form_button button {
@@ -10677,9 +10679,13 @@ div.calendar table td.button {
 }
 
 #cms_home_form .form_mini .form_button button span {
+  text-transform: none;
+}
+
+#cms_home_form .form_mini .form_button button.button span {
+  border: none;
   font-size: 18px;
   color: #FFF;
-  text-transform: none;
 }
 
 #cms_home_form .form_mini .form_errors {
