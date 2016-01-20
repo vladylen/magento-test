@@ -30,6 +30,10 @@ class Mad_Contact_IndexController extends Mage_Core_Controller_Front_Action
                     $error = true;
                 }
 
+                if (!Zend_Validate::is(trim($post['name']), 'NotEmpty')) {
+                    $error = true;
+                }
+
                 if (Zend_Validate::is(trim($post['hideit']), 'NotEmpty')) {
                     $error = true;
                 }
@@ -75,10 +79,12 @@ class Mad_Contact_IndexController extends Mage_Core_Controller_Front_Action
     private function contactToCustomer($post)
     {
         $phone = $post['telephone'];
+        $name  = $post['name'];
 
         $phoneManager = new PhoneManager();
         $phoneNumber  = $phoneManager->getValidPhoneNumber($phone);
-        $result       = $phoneManager->organizeCall($phoneNumber);
+        $name         = $phoneManager->getValidName($name);
+        $result       = $phoneManager->organizeCall($phoneNumber, $name);
 
         $email = $post['email'];
 
@@ -102,14 +108,14 @@ class Mad_Contact_IndexController extends Mage_Core_Controller_Front_Action
         $mailTemplate = Mage::getModel('core/email_template');
         /* @var $mailTemplate Mage_Core_Model_Email_Template */
         $mailTemplate->setDesignConfig(['area' => 'frontend'])
-            ->setReplyTo($email)
-            ->sendTransactional(
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
-                Mage::getStoreConfig(self::XML_PATH_EMAIL_RECIPIENT),
-                null,
-                ['data' => $postObject]
-            );
+                     ->setReplyTo($email)
+                     ->sendTransactional(
+                         Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE),
+                         Mage::getStoreConfig(self::XML_PATH_EMAIL_SENDER),
+                         Mage::getStoreConfig(self::XML_PATH_EMAIL_RECIPIENT),
+                         null,
+                         ['data' => $postObject]
+                     );
 
         if (!$mailTemplate->getSentSuccess()) {
             throw new EmailSenderException();
